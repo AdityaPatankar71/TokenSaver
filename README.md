@@ -1,5 +1,7 @@
 # TokenSaver
 
+[![CI](https://github.com/AdityaPatankar71/TokenSaver/actions/workflows/ci.yml/badge.svg)](https://github.com/AdityaPatankar71/TokenSaver/actions/workflows/ci.yml)
+
 One command to make Claude Code cheaper and more honest in any project.
 
 It wires together three pieces:
@@ -81,6 +83,17 @@ Requires: `python3 >=3.10`, and `uv` or `pipx` recommended (the installer falls 
 ```
 
 Removes the honesty block and unwinds Graphify. Refresh hooks in `settings.json` are left for you to remove by hand (so we never touch hooks you may have edited).
+
+## Development
+
+The merge logic (the part that must never clobber your config) is covered by tests:
+
+```bash
+pip install pytest
+pytest -q
+```
+
+CI runs the tests on Python 3.10 + 3.12 and lints the shell scripts (`bash -n` + ShellCheck) on every push and PR.
 
 ## License
 
