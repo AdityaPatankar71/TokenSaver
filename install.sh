@@ -15,7 +15,22 @@
 
 set -uo pipefail
 
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || true)"
+
+# Self-bootstrap: when run via `curl ... | bash` (or anywhere our sibling files
+# aren't sitting next to this script), clone the repo to a temp dir and re-exec
+# from there. Lets users install with one command, no manual git clone. cwd is
+# preserved across exec, so PROJECT_DIR still defaults to their project folder.
+if [ ! -f "${REPO_DIR:-/nonexistent}/lib/merge_block.py" ] && [ -z "${TOKENSAVER_BOOTSTRAPPED:-}" ]; then
+  command -v git >/dev/null 2>&1 || { echo "[TokenSaver] ERROR: git is required to bootstrap." >&2; exit 1; }
+  _ts_tmp="$(mktemp -d)"
+  echo "[TokenSaver] fetching TokenSaver into a temp dir..."
+  git clone --depth 1 -q https://github.com/AdityaPatankar71/TokenSaver "$_ts_tmp/TokenSaver" \
+    || { echo "[TokenSaver] ERROR: clone failed." >&2; exit 1; }
+  export TOKENSAVER_BOOTSTRAPPED=1
+  exec bash "$_ts_tmp/TokenSaver/install.sh" "$@"
+fi
+
 PROJECT_DIR=""
 WITH_CAVEMAN=0
 PY="$(command -v python3 || true)"

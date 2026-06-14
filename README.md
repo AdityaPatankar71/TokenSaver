@@ -56,14 +56,30 @@ measured numbers, not marketing multipliers.
 
 ## Install
 
+From inside your project folder, one command:
+
 ```bash
-git clone https://github.com/AdityaPatankar71/TokenSaver /tmp/TokenSaver
-cd /path/to/your/project
-/tmp/TokenSaver/install.sh                 # graph + honesty
-/tmp/TokenSaver/install.sh --with-caveman  # also add output compression
+curl -fsSL https://raw.githubusercontent.com/AdityaPatankar71/TokenSaver/main/install.sh | bash
 ```
 
-Requires: `python3 >=3.10`, and `uv` or `pipx` recommended (the installer falls back to pip with a warning).
+Add output compression too:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AdityaPatankar71/TokenSaver/main/install.sh | bash -s -- --with-caveman
+```
+
+The script clones itself to a temp dir and installs into your **current** directory — no manual clone needed.
+
+> Piping a remote script to your shell runs code you haven't read. If you'd rather inspect it first, install manually:
+>
+> ```bash
+> git clone https://github.com/AdityaPatankar71/TokenSaver /tmp/TokenSaver
+> cd /path/to/your/project
+> /tmp/TokenSaver/install.sh                 # graph + honesty
+> /tmp/TokenSaver/install.sh --with-caveman  # also add output compression
+> ```
+
+Requires: `python3 >=3.10`, `git`, and `uv` or `pipx` recommended (the installer falls back to pip with a warning).
 
 ## What the installer touches
 
