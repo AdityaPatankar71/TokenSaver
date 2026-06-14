@@ -1,0 +1,56 @@
+name: Bug report
+description: Something in TokenSaver's install, hooks, or honesty layer misbehaved
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. If the problem is with the **code graph itself**
+        (wrong query results, parsing) file it upstream at
+        [Graphify](https://github.com/safishamsi/graphify); if it's about
+        **output compression** file it at
+        [caveman](https://github.com/JuliusBrussee/caveman). This tracker is for
+        TokenSaver's installer, hooks, honesty layer, and config merging.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What went wrong, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. In a repo with an existing CLAUDE.md, run ./install.sh .
+        2. ...
+        3. See error / wrong result
+    validations:
+      required: true
+  - type: checkboxes
+    id: clobber
+    attributes:
+      label: Did it touch config it should not have?
+      description: TokenSaver must never overwrite content outside its managed block. Tick if it did.
+      options:
+        - label: It modified or deleted CLAUDE.md / settings.json content that was not ours
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Fill these in — they pin down most install issues.
+      value: |
+        - OS:
+        - Shell:
+        - Python version (`python3 --version`):
+        - graphify version (`graphify --version`):
+        - Installed via: uv / pipx / pip
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Install / hook output
+      description: Paste the relevant terminal output. This will be rendered as code, no backticks needed.
+      render: shell

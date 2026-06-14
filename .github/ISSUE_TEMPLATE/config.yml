@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Graphify (code graph engine)
+    url: https://github.com/safishamsi/graphify/issues
+    about: Wrong query results, parsing, or anything about the graph itself belongs here.
+  - name: caveman (output compression)
+    url: https://github.com/JuliusBrussee/caveman/issues
+    about: Issues with the caveman output-compression behavior belong here.

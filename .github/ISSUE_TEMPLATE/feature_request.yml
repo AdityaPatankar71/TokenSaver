@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest an improvement to TokenSaver's installer, hooks, or honesty layer
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Reminder of scope: TokenSaver is an **orchestrator**. "Make the graph
+        smarter" belongs upstream in Graphify; "compress output differently"
+        belongs in caveman. Good fits here: the honesty rules, install/uninstall
+        UX, hook wiring, and how the pieces compose without clobbering config.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: The pain first, not the solution. What are you unable to do today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part does this touch?
+      options:
+        - Honesty layer (CLAUDE.md rules)
+        - Installer / uninstaller
+        - Hooks / incremental refresh
+        - Config merge logic
+        - Docs / benchmarks
+        - Not sure
+    validations:
+      required: true
+  - type: checkboxes
+    id: invariant
+    attributes:
+      label: Confirm
+      options:
+        - label: This keeps the installer idempotent and non-clobbering (or I'll explain why it can't)
+          required: true
