@@ -4,6 +4,8 @@
 
 One command to make Claude Code cheaper and more honest in any project.
 
+![TokenSaver demo — install wiring graphify + an honesty layer into a project, then a scoped graph query](docs/demo.gif)
+
 It wires together three pieces:
 
 | Piece | What it does | Whose code |
