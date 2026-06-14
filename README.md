@@ -18,25 +18,37 @@ This is an **orchestrator, not an engine.** The code graph is Graphify's; the ou
 
 Every new Claude session starts cold and re-explores your codebase, burning tokens re-reading files it read yesterday. The graph gives Claude a persistent map so it jumps straight to the relevant code.
 
-### Measured savings — and where it does NOT help
+### Measured savings — on real codebases, with honest caveats
 
-Per-task retrieval cost, measured on synthetic repos (baseline = reading every source file; graph = `GRAPH_REPORT.md` + one scoped `graphify query`):
+Methodology: clone real OSS Python repos, build the graph, and compare the token
+cost of locating a feature. Token counts are `chars / 4`.
 
-| repo size | read-all-files | graph | result |
-|-----------|----------------|-------|--------|
-| 8 files   | ~646 tok       | ~1035 | **−60% (costs more)** |
-| 25 files  | ~2062 tok      | ~1489 | +28% |
-| 60 files  | ~4985 tok      | ~1869 | +62% |
-| 120 files | ~10053 tok     | ~2374 | +76% |
-| 250 files | ~21265 tok     | ~4192 | +80% |
+| repo | source files | read all source | read 3 relevant files | one scoped graph query |
+|------|--------------|-----------------|-----------------------|------------------------|
+| [click](https://github.com/pallets/click)        |  16 | ~98k tok  | ~45k tok | **~80 tok**  |
+| [requests](https://github.com/psf/requests)      |  20 | ~54k tok  | ~26k tok | **~500 tok** |
+| [flask](https://github.com/pallets/flask)        |  23 | ~84k tok  | ~25k tok | **~490 tok** |
+| [rich](https://github.com/Textualize/rich)       | 109 | ~310k tok | ~42k tok | **~490 tok** |
 
-**Crossover is around 20–25 files. Below that, TokenSaver adds overhead — don't use it on small repos.** It pays off on medium/large codebases.
+**What's solid:** a scoped `graphify query` returns a bounded subgraph of roughly
+**80–500 tokens regardless of repo size.** That replaces the grep-many-files
+exploration Claude does on every cold session to *find* the relevant code — which
+on these repos costs 25k–45k tokens. So the **exploration step gets ~95%+ cheaper.**
 
-Two honest caveats:
-- The baseline above is "read *every* file," the worst case. Real Claude greps and reads a few files, so **your real-world savings are lower** than this table and depend on how exploration-heavy your work is.
-- There is a fixed per-session cost: the honesty + graphify CLAUDE.md blocks add ~1–1.3k input tokens every session. On small repos this tax is never recovered (hence the negative result above).
+**What we will NOT claim:** that this is "95% off your whole session." The query is
+a *navigation layer* — it tells Claude where code lives and how it connects, not the
+full implementation. Claude still reads the specific function it edits. Real
+total-session savings are smaller than the exploration number and depend on your
+workflow (exploration-heavy work benefits most).
 
-We report measured numbers, not marketing multipliers. No 90%+ claims.
+**Where it loses:** small repos (≲25 files). Exploration was already cheap, and the
+honesty + graphify `CLAUDE.md` blocks add a fixed ~1–1.3k tokens per session that
+never gets recovered. On a synthetic 8-file repo we measured a **net −60%** (it
+costs more). Don't install TokenSaver on small repos.
+
+**Bottom line:** big win on the re-exploration problem on medium/large codebases;
+neutral-to-negative on small ones; not a magic whole-session multiplier. We report
+measured numbers, not marketing multipliers.
 
 ## Install
 
