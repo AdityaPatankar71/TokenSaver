@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# OS
+.DS_Store
+
+# Claude Code machine-local settings
+.claude/settings.local.json
+
+# Graphify output (only present when TokenSaver is installed into a target repo)
+graphify-out/
