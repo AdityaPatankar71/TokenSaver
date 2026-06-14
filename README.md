@@ -1,8 +1,12 @@
 # TokenSaver
 
 [![CI](https://github.com/AdityaPatankar71/TokenSaver/actions/workflows/ci.yml/badge.svg)](https://github.com/AdityaPatankar71/TokenSaver/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/AdityaPatankar71/TokenSaver?color=blue)](https://github.com/AdityaPatankar71/TokenSaver/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 One command to make Claude Code cheaper and more honest in any project.
+
+> **v0.1.0 is out** — [release notes](https://github.com/AdityaPatankar71/TokenSaver/releases/tag/v0.1.0).
 
 ![TokenSaver demo — install wiring graphify + an honesty layer into a project, then a scoped graph query](docs/demo.gif)
 
